@@ -10,19 +10,13 @@
         android:name="net.iesochoa.pacofloridoquesada.practica5.ui.ListaFragment"
         android:label="@string/lista_fragment_label"
         tools:layout="@layout/fragment_lista">
-
         <action
-            android:id="@+id/action_ListaFragment_to_TareaFragment"
+            android:id="@+id/action_editar"
             app:destination="@id/TareaFragment" />
     </fragment>
     <fragment
         android:id="@+id/TareaFragment"
         android:name="net.iesochoa.pacofloridoquesada.practica5.ui.TareaFragment"
         android:label="@string/tarea_fragment_label"
-        tools:layout="@layout/fragment_tarea">
-
-        <action
-            android:id="@+id/action_TareaFragment_to_ListaFragment"
-            app:destination="@id/ListaFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_tarea"/>
 </navigation>

@@ -33,8 +33,13 @@ class ListaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
+        /*binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_ListaFragment_to_TareaFragment)
+        }
+
+         */
+        binding.fabAAdirTarea.setOnClickListener{
+            findNavController().navigate(R.id.action_editar)
         }
     }
 
