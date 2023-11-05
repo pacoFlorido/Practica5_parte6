@@ -43,4 +43,18 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="categor_a">Categoría</string>
+    <string name="prioridad">Prioridad</string>
+    <string-array name="categoria">
+        <item>Reparación</item>
+        <item>Instalación</item>
+        <item>Mantenimiento</item>
+        <item>Comercialt</item>
+        <item>Otros</item>
+    </string-array>
+    <string-array name="prioridad">
+        <item>Baja</item>
+        <item>Media</item>
+        <item>Alta</item>
+    </string-array>
 </resources>
