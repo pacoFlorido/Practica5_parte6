@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SeekBar
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import net.iesochoa.pacofloridoquesada.practica5.R
@@ -24,6 +25,35 @@ class TareaFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private fun iniciarSbHorasTrabajadas(){
+        binding.sbHorasTrabajadas.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, progreso: Int, p2: Boolean) {
+                binding.tvHorasTrabajadas.text = getString(R.string.horas_tabajadas,progreso)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                /*
+                Este código lo he añadido para indicar que la tarea esta cerrada si se ha
+                llegado al número máximo de horas, o que esta abierta si no ha trabajado
+                ninguna hora, o que esta en curso si lleva alguna hora trabajada.
+                Es extra, si quieres lo puedes comentar.
+                 */
+                if (binding.sbHorasTrabajadas.max == seekBar?.progress){
+                    binding.rgEstado.check(R.id.rbCerrada)
+                } else if (0 == seekBar?.progress){
+                    binding.rgEstado.check(R.id.rbAbierta)
+                } else {
+                    binding.rgEstado.check(R.id.rbEnCurso)
+                }
+            }
+        })
+        // Inicializamos el valor del SeekBar, horas trabajadas
+        binding.sbHorasTrabajadas.progress = 0
+        binding.tvHorasTrabajadas.text = getString(R.string.horas_tabajadas,0)
+    }
     /**
      * Inicia el Switch de Pagado
      */
@@ -54,6 +84,7 @@ class TareaFragment : Fragment() {
                 else -> R.drawable.ic_cerrado
             }
             binding.ivEstado.setImageResource(imagen)
+
         }
         // Lo iniciamo en abierto
         binding.rgEstado.check(R.id.rbAbierta)
@@ -153,6 +184,7 @@ class TareaFragment : Fragment() {
         iniciarSpPrioridad()
         iniciarSwPagado()
         iniciarRgEstado()
+        iniciarSbHorasTrabajadas()
     }
 
     override fun onDestroyView() {

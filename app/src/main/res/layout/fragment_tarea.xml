@@ -132,4 +132,26 @@
         app:layout_constraintStart_toEndOf="@+id/tvEstado"
         app:layout_constraintTop_toTopOf="@+id/tvEstado" />
 
+    <SeekBar
+        android:id="@+id/sbHorasTrabajadas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:max="30"
+        app:layout_constraintBottom_toBottomOf="@+id/tvHorasTrabajadas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvHorasTrabajadas"
+        app:layout_constraintTop_toTopOf="@+id/tvHorasTrabajadas" />
+
+    <TextView
+        android:id="@+id/tvHorasTrabajadas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/rgEstado"
+        app:layout_constraintTop_toBottomOf="@+id/rgEstado"
+        tools:text="Llevo 10 horas trabajadas" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
