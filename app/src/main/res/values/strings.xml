@@ -64,4 +64,7 @@
     <string name="en_curso">En Curso</string>
     <string name="cerrada">Cerrada</string>
     <string name="horas_tabajadas">Llevo %1$d horas trabajadas</string>
+    <string name="valoraci_n_del_cliente">Valoración del cliente</string>
+    <string name="tecnico">Técnico</string>
+    <string name="descripci_n">Descripción</string>
 </resources>

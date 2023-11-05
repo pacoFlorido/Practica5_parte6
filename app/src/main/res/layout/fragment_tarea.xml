@@ -134,14 +134,12 @@
 
     <SeekBar
         android:id="@+id/sbHorasTrabajadas"
-        android:layout_width="0dp"
+        android:layout_width="221dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:max="30"
         app:layout_constraintBottom_toBottomOf="@+id/tvHorasTrabajadas"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvHorasTrabajadas"
         app:layout_constraintTop_toTopOf="@+id/tvHorasTrabajadas" />
 
     <TextView
@@ -149,9 +147,73 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/rgEstado"
         app:layout_constraintTop_toBottomOf="@+id/rgEstado"
         tools:text="Llevo 10 horas trabajadas" />
+
+    <RatingBar
+        android:id="@+id/rbValoracion"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:numStars="5"
+        android:progressTint="#FFC107"
+        android:rating="3"
+        android:stepSize="0.5"
+        app:layout_constraintStart_toStartOf="@+id/tvValoracion"
+        app:layout_constraintTop_toBottomOf="@+id/tvValoracion" />
+
+    <TextView
+        android:id="@+id/tvValoracion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/valoraci_n_del_cliente"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvHorasTrabajadas"
+        app:layout_constraintTop_toBottomOf="@+id/tvHorasTrabajadas" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/rbValoracion"
+        app:layout_constraintTop_toBottomOf="@+id/rbValoracion">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietTecnico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/tecnico" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <EditText
+        android:id="@+id/editTextTextMultiLine"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescripcion" />
+
+    <TextView
+        android:id="@+id/tvDescripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/descripci_n"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
