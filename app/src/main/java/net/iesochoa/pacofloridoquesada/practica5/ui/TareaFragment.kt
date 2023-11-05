@@ -41,6 +41,25 @@ class TareaFragment : Fragment() {
     }
 
     /**
+     * Iniciar RadioGroup del Estado
+     */
+    private fun iniciarRgEstado(){
+        // Creamos el evento CheckerChange para cambiar las imagenes al seleccionar
+        // un RadioButton u otro
+        binding.rgEstado.setOnCheckedChangeListener{_, checkedId ->
+            // Hacemo un when para coger la imagen adecuada en cada caso
+            val imagen = when (checkedId){
+                R.id.rbAbierta -> R.drawable.ic_abierto
+                R.id.rbEnCurso -> R.drawable.ic_en_curso
+                else -> R.drawable.ic_cerrado
+            }
+            binding.ivEstado.setImageResource(imagen)
+        }
+        // Lo iniciamo en abierto
+        binding.rgEstado.check(R.id.rbAbierta)
+    }
+
+    /**
      * Inicia el Spinner de Prioridad
      */
     private fun iniciarSpPrioridad(){
@@ -70,8 +89,6 @@ class TareaFragment : Fragment() {
                 }
             }
         }
-
-
     }
 
     /**
@@ -116,11 +133,9 @@ class TareaFragment : Fragment() {
             }
         }
     }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentTareaBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -137,6 +152,7 @@ class TareaFragment : Fragment() {
         iniciarSpCategorias()
         iniciarSpPrioridad()
         iniciarSwPagado()
+        iniciarRgEstado()
     }
 
     override fun onDestroyView() {

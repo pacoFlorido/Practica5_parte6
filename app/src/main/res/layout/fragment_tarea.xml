@@ -84,4 +84,52 @@
         app:layout_constraintStart_toEndOf="@+id/ivPagado"
         app:layout_constraintTop_toTopOf="@+id/ivPagado" />
 
+    <TextView
+        android:id="@+id/tvEstado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/estado_de_la_tarea"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/ivPagado"
+        app:layout_constraintTop_toBottomOf="@+id/ivPagado" />
+
+    <RadioGroup
+        android:id="@+id/rgEstado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/tvEstado"
+        app:layout_constraintTop_toBottomOf="@+id/tvEstado">
+
+        <RadioButton
+            android:id="@+id/rbAbierta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/abierta" />
+
+        <RadioButton
+            android:id="@+id/rbEnCurso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/en_curso" />
+
+        <RadioButton
+            android:id="@+id/rbCerrada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cerrada" />
+    </RadioGroup>
+
+    <ImageView
+        android:id="@+id/ivEstado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_abierto"
+        app:layout_constraintBottom_toBottomOf="@+id/tvEstado"
+        app:layout_constraintStart_toEndOf="@+id/tvEstado"
+        app:layout_constraintTop_toTopOf="@+id/tvEstado" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
