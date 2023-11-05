@@ -67,4 +67,5 @@
     <string name="valoraci_n_del_cliente">Valoración del cliente</string>
     <string name="tecnico">Técnico</string>
     <string name="descripci_n">Descripción</string>
+    <string name="boton_guardar">Boton Guardar</string>
 </resources>
