@@ -49,7 +49,7 @@
         <item>Reparación</item>
         <item>Instalación</item>
         <item>Mantenimiento</item>
-        <item>Comercialt</item>
+        <item>Comercial</item>
         <item>Otros</item>
     </string-array>
     <string-array name="prioridad">
@@ -57,4 +57,5 @@
         <item>Media</item>
         <item>Alta</item>
     </string-array>
+    <string name="mensaje_categoria">Has seleccionado %1$s como categoría</string>
 </resources>

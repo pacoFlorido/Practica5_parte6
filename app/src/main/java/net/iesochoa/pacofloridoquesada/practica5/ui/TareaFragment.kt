@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import net.iesochoa.pacofloridoquesada.practica5.R
 import net.iesochoa.pacofloridoquesada.practica5.databinding.FragmentTareaBinding
 
@@ -31,9 +32,10 @@ class TareaFragment : Fragment() {
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spPrioridad.adapter = adapter
+
             // Cuando se seleccione prioridad Alta cambiamos el color del fondo
             binding.spPrioridad.onItemSelectedListener=object : AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(p0: AdapterView<*>?,v:View?,posicion: Int, id: Long) {
+                override fun onItemSelected(p0: AdapterView<*>?,v: View?,posicion: Int, id: Long) {
                     if (posicion == 2){
                         // Si el item seleccionado es "alta", que se encuentra en la tercera posicion (2 del array), se cambiará el fondo al color que hayamos escogido
                         binding.clytTarea.setBackgroundColor(requireContext().getColor(R.color.prioridad_alta))
@@ -44,6 +46,7 @@ class TareaFragment : Fragment() {
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
+                    // Si no hay ningún elemento seleccionado nos pondremos el fondo transparente.
                     binding.clytTarea.setBackgroundColor(Color.TRANSPARENT)
                 }
             }
@@ -66,6 +69,29 @@ class TareaFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Una vez creado el adapter, lo asociamos con el adapter de spCategorias
             binding.spCategorias.adapter = adapter
+
+            /* Creamos el evento para que cuando un item de spCategorias se seleccione nos muestre el
+             * mensaje  */
+
+            binding.spCategorias.onItemSelectedListener=object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, v: View?, posicion: Int, id: Long) {
+                    // Cogemos el string del item seleccionado
+                    val categoriaSeleccionada = binding.spCategorias.getItemAtPosition(posicion)
+                    // Lo ponemos en el mensaje que hemos creado en strings.xml
+                    val mensaje = getString(R.string.mensaje_categoria, categoriaSeleccionada)
+
+                    // Mostramos el mensaje mediante el SnackBar
+                    Snackbar.make(binding.clytTarea, mensaje, Snackbar.LENGTH_LONG)
+                        // En este caso no vamos a implementar ninguna acción adicional
+                        .setAction("Action",null).show()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // En caso de que ninguno fuera seleccionado nos mostraría este mensaje.
+                    Snackbar.make(binding.clytTarea, "Ninguna categoría seleccionada", Snackbar.LENGTH_LONG)
+                        .setAction("Action",null).show()
+                }
+            }
         }
     }
     override fun onCreateView(
