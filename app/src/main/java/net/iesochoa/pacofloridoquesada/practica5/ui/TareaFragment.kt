@@ -24,6 +24,25 @@ class TareaFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    /**
+     * Inicia el Switch de Pagado
+     */
+    private fun iniciarSwPagado(){
+        binding.swPagado.setOnCheckedChangeListener{_, isChecked ->
+            // Elegimos la imagen dependiendo de como este el switch
+            val imagen = if (isChecked) R.drawable.ic_pagado
+                         else R.drawable.ic_no_pagado
+            // Asignamos la imagen dependiendo de como este el switch
+            binding.ivPagado.setImageResource(imagen)
+        }
+        // Indicamos el valor por defecto
+        binding.swPagado.isChecked = false
+        binding.ivPagado.setImageResource(R.drawable.ic_no_pagado)
+    }
+
+    /**
+     * Inicia el Spinner de Prioridad
+     */
     private fun iniciarSpPrioridad(){
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -55,6 +74,9 @@ class TareaFragment : Fragment() {
 
     }
 
+    /**
+     * Inicia el Spinner de Categorias
+     */
     private fun iniciarSpCategorias(){
         //Creamos el Adapter
         ArrayAdapter.createFromResource(
@@ -114,6 +136,7 @@ class TareaFragment : Fragment() {
 
         iniciarSpCategorias()
         iniciarSpPrioridad()
+        iniciarSwPagado()
     }
 
     override fun onDestroyView() {

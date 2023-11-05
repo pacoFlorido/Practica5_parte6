@@ -63,4 +63,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvPrioridad"
         app:layout_constraintTop_toTopOf="@+id/tvPrioridad" />
+
+    <ImageView
+        android:id="@+id/ivPagado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_pagado"
+        app:layout_constraintStart_toStartOf="@+id/tvPrioridad"
+        app:layout_constraintTop_toBottomOf="@+id/tvPrioridad" />
+
+    <Switch
+        android:id="@+id/swPagado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/pagado"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPagado"
+        app:layout_constraintStart_toEndOf="@+id/ivPagado"
+        app:layout_constraintTop_toTopOf="@+id/ivPagado" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
