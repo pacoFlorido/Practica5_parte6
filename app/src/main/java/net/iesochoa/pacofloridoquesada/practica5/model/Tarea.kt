@@ -36,7 +36,7 @@ data class Tarea(
     companion object {
         var idContador = 1L
         private fun generateId(): Long {
-            return idContador++;
+            return idContador++
         }
     }
 
