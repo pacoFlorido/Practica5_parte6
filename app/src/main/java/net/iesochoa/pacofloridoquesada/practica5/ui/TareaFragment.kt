@@ -31,8 +31,11 @@ class TareaFragment : Fragment() {
     private val binding get() = _binding!!
     val args: TareaFragmentArgs by navArgs()
     private val viewModel: AppViewModel by activityViewModels()
-    val esNuevo by lazy { args.tarea == null }
+    val esNuevo by lazy { args.tarea == null } // Si la tarea no esta en la lista es porque es nueva
 
+    /**
+     * Iniciamos la tarea que ya existe
+     */
     private fun iniciaTarea(tarea: Tarea){
         binding.spCategorias.setSelection(tarea.categoria)
         binding.spPrioridad.setSelection(tarea.prioridad)
@@ -155,7 +158,7 @@ class TareaFragment : Fragment() {
         // Creamos el evento CheckerChange para cambiar las imagenes al seleccionar
         // un RadioButton u otro
         binding.rgEstado.setOnCheckedChangeListener{_, checkedId ->
-            // Hacemo un when para coger la imagen adecuada en cada caso
+            // Hacemos un when para coger la imagen adecuada en cada caso
             val imagen = when (checkedId){
                 R.id.rbAbierta -> R.drawable.ic_abierto
                 R.id.rbEnCurso -> R.drawable.ic_en_curso
@@ -265,7 +268,7 @@ class TareaFragment : Fragment() {
         iniciarSbHorasTrabajadas()
         iniciarFabGuardar()
 
-        if (esNuevo)
+        if (esNuevo) // Si la tarea es nueva pondremos de titulo "Nueva tarea" y si no pondremos "Tarea" + el id de esa tarea
             (requireActivity() as AppCompatActivity).supportActionBar?.title = "Nueva tarea"
         else
             iniciaTarea(args.tarea!!)

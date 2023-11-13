@@ -16,6 +16,7 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     val SOLO_SIN_PAGAR = "SOLO_SIN_PAGAR"
     val ESTADO = "ESTADO"
     private val filtrosLiveData by lazy {
+        // Creamos un MutableLiveData de los dos datos por los que tenemos que filtrar
         val mutableMap = mutableMapOf<String, Any?>(
             SOLO_SIN_PAGAR to false,
             ESTADO to 3
@@ -27,6 +28,7 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
         repositorio = Repository
         //tareasLiveData = soloSinPagarLiveData.switchMap { soloSinPagar -> Repository.getTareasFiltroSinPagar(soloSinPagar) }
         //tareasLiveData = estadoLiveData.switchMap { estado -> Repository.getTareasFiltroEstado(estado) }
+
         tareasLiveData=filtrosLiveData.switchMap{ mapFiltro ->
             val aplicarSinPagar = mapFiltro!![SOLO_SIN_PAGAR] as Boolean
             val estado = mapFiltro!![ESTADO] as Int
@@ -48,11 +50,13 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
 
     fun addTarea(tarea: Tarea)= Repository.addTarea(tarea)
     fun delTarea(tarea: Tarea)= Repository.delTarea(tarea)
+    // Método que comprueba que opción esta seleccionada para poder filtrar
     fun setSoloSinPagar (soloSinPagar: Boolean) {
         val mapa = filtrosLiveData.value
         mapa!![SOLO_SIN_PAGAR] = soloSinPagar
         filtrosLiveData.value = mapa
     }
+    // Método que comprueba que opción esta seleccionada para poder filtrar
     fun setEstado (estado: Int) {
         val mapa = filtrosLiveData.value
         mapa!![ESTADO] = estado

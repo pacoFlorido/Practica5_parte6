@@ -24,6 +24,9 @@ class ListaFragment : Fragment() {
 
     private val viewModel: AppViewModel by activityViewModels()
 
+    /**
+     * Método que inicia ambos filtros
+     */
     private fun iniciaFiltros() {
         binding.rgFiltroEstados.setOnCheckedChangeListener() {_, checkedId->
            when (checkedId) {
@@ -38,6 +41,9 @@ class ListaFragment : Fragment() {
         }
     }
 
+    /**
+     * Método que actualiza la lista por si se ha añadido alguna tarea nueva
+     */
     private fun actualizaLista(lista: List<Tarea>?) {
         var listaString=""
         lista?.forEach(){
@@ -68,10 +74,12 @@ class ListaFragment : Fragment() {
         viewModel.tareasLiveData.observe(viewLifecycleOwner, Observer<List<Tarea>>{lista ->
             actualizaLista(lista)
         })
+        // Indicamos la accion que realizará el boton FabAñadirTarea
         binding.fabAAdirTarea.setOnClickListener{
             val action = ListaFragmentDirections.actionEditar(null)
             findNavController().navigate(action)
         }
+        // Indicamos la acción que realizará el botón PruebaEdición
         binding.btPruebaEdicion.setOnClickListener{
             //cogemos la lista actual de Tareas que tenemos en el ViewModel. No es lo más correcto
             val lista = viewModel.tareasLiveData.value

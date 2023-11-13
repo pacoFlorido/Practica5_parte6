@@ -23,7 +23,7 @@ object ModelTempTareas {
         this.application = context.applicationContext as Application
         iniciaPruebaTareas()
     }
-    // Devuelve un LiveData para que no se pueda modificar en capas superiores.
+    // Devuelve un LiveData de todas las tareas para que no se pueda modificar en capas superiores.
     fun getAllTareas(): LiveData<List<Tarea>> {
         tareasLiveData.value = tareas
         return tareasLiveData
@@ -46,11 +46,17 @@ object ModelTempTareas {
         tareasLiveData.value = tareas
     }
 
+    /**
+     * Metodo para eliminar tareas
+     */
     fun delTarea(tarea: Tarea){
         tareas.remove(tarea)
         tareasLiveData.value = tareas
     }
 
+    /**
+     * Generando items random para comprbar funcionamiento
+     */
     fun iniciaPruebaTareas() {
         val tecnicos = listOf(
             "Pepe Gotero",
@@ -77,6 +83,10 @@ object ModelTempTareas {
         //actualizamos el LiveData
         tareasLiveData.value = tareas
     }
+
+    /**
+     * Método que filtra las tareas que están sin pagar
+     */
     fun getTareasFiltroSinPagar(soloSinPagar: Boolean): LiveData<List<Tarea>>{
         tareasLiveData.value = if (soloSinPagar)
             tareas.filter { !it.pagado } as ArrayList<Tarea>
@@ -84,6 +94,9 @@ object ModelTempTareas {
             tareas
         return tareasLiveData
     }
+    /**
+     * Método que filtra si las tareas están cerradas, abiertas o en curso
+     */
     fun getTareasFiltroEstado(estado: Int): LiveData<List<Tarea>>{
         tareasLiveData.value = when (estado) {
             3 -> tareas
@@ -91,6 +104,11 @@ object ModelTempTareas {
         }
         return tareasLiveData
     }
+
+    /**
+     * Método que filtra si las tareas están cerradas, abiertas o en curso y
+     * que compruba si están Sin Pagar
+     */
     fun getTareasFiltroSinPagarEstado (soloSinPagar: Boolean, estado: Int): LiveData<List<Tarea>> {
         tareasLiveData.value = tareas.filter { !it.pagado && it.estado == estado } as ArrayList<Tarea>
         return tareasLiveData
