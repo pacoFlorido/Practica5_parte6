@@ -24,6 +24,12 @@ class ListaFragment : Fragment() {
 
     private val viewModel: AppViewModel by activityViewModels()
 
+    private fun iniciaFiltros() {
+        binding.swSinPagar.setOnCheckedChangeListener(){_, isChecked ->
+            viewModel.setSoloSinPagar(isChecked)
+        }
+    }
+
     private fun actualizaLista(lista: List<Tarea>?) {
         var listaString=""
         lista?.forEach(){
@@ -67,6 +73,7 @@ class ListaFragment : Fragment() {
             val action=ListaFragmentDirections.actionEditar(tarea)
             findNavController().navigate(action)
         }
+        iniciaFiltros()
     }
 
     override fun onDestroyView() {

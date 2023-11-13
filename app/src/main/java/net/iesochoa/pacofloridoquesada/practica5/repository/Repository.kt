@@ -18,4 +18,5 @@ object Repository {
     fun addTarea(tarea: Tarea)= modelTareas.addTarea(tarea)
     fun delTarea(tarea: Tarea)= modelTareas.delTarea(tarea)
     fun getAllTareas()= modelTareas.getAllTareas()
+    fun getTareasFiltroSinPagar (soloSinPagar: Boolean) = modelTareas.getTareasFiltroSinPagar(soloSinPagar)
 }

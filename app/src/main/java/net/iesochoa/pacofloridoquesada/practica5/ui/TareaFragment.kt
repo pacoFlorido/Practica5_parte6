@@ -50,12 +50,19 @@ class TareaFragment : Fragment() {
         binding.etDescripcion.setText(tarea.descripcion)
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Tarea ${tarea.id}"
     }
+
+    /**
+     * Muestra el mensaje de error
+     */
     private fun muestraMensajeError() {
         Snackbar.make(binding.clytTarea, R.string.mensaje_error_guardar, Snackbar.LENGTH_LONG)
             // En este caso no vamos a implementar ninguna acción adicional
             .setAction("Action",null).show()
     }
 
+    /**
+     * Inicia el FabGuardar
+     */
     private fun iniciarFabGuardar() {
         binding.fabGuardar.setOnClickListener{
             if (binding.tietTecnico.text.toString().isEmpty() || binding.etDescripcion.text.toString().isEmpty())
