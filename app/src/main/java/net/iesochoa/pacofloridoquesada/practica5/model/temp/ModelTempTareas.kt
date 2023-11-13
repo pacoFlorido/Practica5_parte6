@@ -84,4 +84,11 @@ object ModelTempTareas {
             tareas
         return tareasLiveData
     }
+    fun getTareasFiltroEstado(estado: Int): LiveData<List<Tarea>>{
+        tareasLiveData.value = when (estado) {
+            3 -> tareas
+            else -> tareas.filter {it.estado == estado} as ArrayList<Tarea>
+        }
+        return tareasLiveData
+    }
 }

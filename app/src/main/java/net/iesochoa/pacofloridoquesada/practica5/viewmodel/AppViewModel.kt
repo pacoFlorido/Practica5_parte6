@@ -12,13 +12,16 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     private val repositorio: Repository
     val tareasLiveData: LiveData<List<Tarea>>
     private val soloSinPagarLiveData = MutableLiveData<Boolean>(false)
+    private val estadoLiveData = MutableLiveData<Int>(3)
     init {
         Repository(getApplication<Application>().applicationContext)
         repositorio = Repository
-        tareasLiveData = soloSinPagarLiveData.switchMap { soloSinPagar -> Repository.getTareasFiltroSinPagar(soloSinPagar) }
+        //tareasLiveData = soloSinPagarLiveData.switchMap { soloSinPagar -> Repository.getTareasFiltroSinPagar(soloSinPagar) }
+        tareasLiveData = estadoLiveData.switchMap { estado -> Repository.getTareasFiltroEstado(estado) }
     }
 
     fun addTarea(tarea: Tarea)= Repository.addTarea(tarea)
     fun delTarea(tarea: Tarea)= Repository.delTarea(tarea)
     fun setSoloSinPagar (soloSinPagar: Boolean) {soloSinPagarLiveData.value = soloSinPagar}
+    fun setEstado (estado: Int) {estadoLiveData.value = estado}
 }

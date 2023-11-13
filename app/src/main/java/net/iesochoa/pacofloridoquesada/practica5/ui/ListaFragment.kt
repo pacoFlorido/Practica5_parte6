@@ -25,6 +25,14 @@ class ListaFragment : Fragment() {
     private val viewModel: AppViewModel by activityViewModels()
 
     private fun iniciaFiltros() {
+        binding.rgFiltroEstados.setOnCheckedChangeListener() {_, checkedId->
+           when (checkedId) {
+               R.id.rbFiltroAbierta -> viewModel.setEstado(0)
+               R.id.rbFiltroEnCurso -> viewModel.setEstado(1)
+               R.id.rbFIltroCerrada -> viewModel.setEstado(2)
+               else -> viewModel.setEstado(3)
+           }
+        }
         binding.swSinPagar.setOnCheckedChangeListener(){_, isChecked ->
             viewModel.setSoloSinPagar(isChecked)
         }
