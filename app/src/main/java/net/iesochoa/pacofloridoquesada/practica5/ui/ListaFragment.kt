@@ -55,7 +55,17 @@ class ListaFragment : Fragment() {
             actualizaLista(lista)
         })
         binding.fabAAdirTarea.setOnClickListener{
-            findNavController().navigate(R.id.action_editar)
+            val action = ListaFragmentDirections.actionEditar(null)
+            findNavController().navigate(action)
+        }
+        binding.btPruebaEdicion.setOnClickListener{
+            //cogemos la lista actual de Tareas que tenemos en el ViewModel. No es lo más correcto
+            val lista = viewModel.tareasLiveData.value
+            //buscamos una tarea aleatoriamente
+            val tarea=lista?.get((0..lista.lastIndex).random())
+            //se la enviamos a TareaFragment para su edición
+            val action=ListaFragmentDirections.actionEditar(tarea)
+            findNavController().navigate(action)
         }
     }
 

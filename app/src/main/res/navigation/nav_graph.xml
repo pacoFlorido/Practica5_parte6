@@ -18,5 +18,10 @@
         android:id="@+id/TareaFragment"
         android:name="net.iesochoa.pacofloridoquesada.practica5.ui.TareaFragment"
         android:label="@string/tarea_fragment_label"
-        tools:layout="@layout/fragment_tarea"/>
+        tools:layout="@layout/fragment_tarea">
+        <argument
+            android:name="tarea"
+            app:argType="net.iesochoa.pacofloridoquesada.practica5.model.Tarea"
+            app:nullable="true" />
+    </fragment>
 </navigation>

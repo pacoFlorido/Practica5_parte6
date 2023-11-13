@@ -1,5 +1,9 @@
 package net.iesochoa.pacofloridoquesada.practica5.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Tarea(
     // Constructor con ID
     var id: Long? = null,
@@ -11,7 +15,7 @@ data class Tarea(
     var valoracionCliente: Float,
     var tecnico: String,
     var descripcion: String
-)
+): Parcelable
 {
     // Segundo constructor que generá id automático
     constructor(
