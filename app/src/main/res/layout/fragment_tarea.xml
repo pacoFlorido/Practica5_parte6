@@ -161,7 +161,7 @@
         tools:text="Llevo 10 horas trabajadas" />
 
     <RatingBar
-        android:id="@+id/rbValoracion"
+        android:id="@+id/rtbValoracion"
         style="@style/Widget.AppCompat.RatingBar.Indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -191,8 +191,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/rbValoracion"
-        app:layout_constraintTop_toBottomOf="@+id/rbValoracion">
+        app:layout_constraintStart_toStartOf="@+id/rtbValoracion"
+        app:layout_constraintTop_toBottomOf="@+id/rtbValoracion">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietTecnico"
@@ -202,7 +202,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/etDescripcion"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"

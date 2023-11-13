@@ -68,4 +68,5 @@
     <string name="tecnico">Técnico</string>
     <string name="descripci_n">Descripción</string>
     <string name="boton_guardar">Boton Guardar</string>
+    <string name="mensaje_error_guardar">Debes rellenar todos los campos</string>
 </resources>
