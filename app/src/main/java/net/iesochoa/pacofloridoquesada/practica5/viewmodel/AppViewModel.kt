@@ -31,7 +31,7 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
 
         tareasLiveData=filtrosLiveData.switchMap{ mapFiltro ->
             val aplicarSinPagar = mapFiltro!![SOLO_SIN_PAGAR] as Boolean
-            val estado = mapFiltro!![ESTADO] as Int
+            val estado = mapFiltro[ESTADO] as Int
             //Devuelve el resultado del when
             when {//trae toda la lista de tareas
                 (!aplicarSinPagar && (estado == 3)) ->
