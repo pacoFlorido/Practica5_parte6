@@ -27,6 +27,23 @@ class ListaFragment : Fragment() {
     private val viewModel: AppViewModel by activityViewModels()
     lateinit var tareasAdapter: TareaAdapter
 
+    private fun iniciaCRUD(){
+        binding.fabAAdirTarea.setOnClickListener{
+            val action = ListaFragmentDirections.actionEditar(null)
+            findNavController().navigate(action)
+        }
+        tareasAdapter.onTareaClickListener = object: TareaAdapter.OnTareaClickListener {
+            override fun onTareaClick(tarea: Tarea?) {
+                val action = ListaFragmentDirections.actionEditar(tarea)
+                findNavController().navigate(action)
+            }
+
+            override fun onTareaBorrarClick(tarea: Tarea?) {
+                viewModel.delTarea(tarea!!)
+            }
+        }
+    }
+
     private fun iniciaRecycledView() {
         //creamos el adaptador
         tareasAdapter = TareaAdapter()
@@ -80,21 +97,15 @@ class ListaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_ListaFragment_to_TareaFragment)
-        }
 
-         */
+        iniciaRecycledView()
+        iniciaFiltros()
+        iniciaCRUD()
         viewModel.tareasLiveData.observe(viewLifecycleOwner, Observer<List<Tarea>>{lista ->
             tareasAdapter.setLista(lista)
         })
         // Indicamos la accion que realizará el boton FabAñadirTarea
-        binding.fabAAdirTarea.setOnClickListener{
-            val action = ListaFragmentDirections.actionEditar(null)
-            findNavController().navigate(action)
-        }
-        iniciaRecycledView()
-        iniciaFiltros()
+
     }
 
     override fun onDestroyView() {
