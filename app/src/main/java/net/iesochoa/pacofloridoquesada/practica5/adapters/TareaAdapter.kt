@@ -33,6 +33,17 @@ class TareaAdapter():
                 val tarea=listaTareas.get(this.adapterPosition)
                 onTareaClickListener?.onTareaClick(tarea)
             }
+            binding.ivEstadoItem.setOnClickListener(){
+                val tarea = listaTareas.get(this.adapterPosition)
+                onTareaClickListener?.onTareaEstadoClick(tarea)
+                binding.ivEstadoItem.setImageResource(
+                    when (tarea.estado) {
+                        0 -> R.drawable.ic_abierto
+                        1 -> R.drawable.ic_en_curso
+                        else -> R.drawable.ic_cerrado
+                    }
+                )
+            }
         }
     }
 
@@ -74,5 +85,6 @@ class TareaAdapter():
     interface OnTareaClickListener {
         fun onTareaClick(tarea: Tarea?)
         fun onTareaBorrarClick(tarea: Tarea?)
+        fun onTareaEstadoClick(tarea: Tarea?)
     }
 }

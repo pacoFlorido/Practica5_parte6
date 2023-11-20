@@ -62,6 +62,14 @@ class ListaFragment : Fragment() {
             override fun onTareaBorrarClick(tarea: Tarea?) {
                 borrarTarea(tarea!!)
             }
+
+            override fun onTareaEstadoClick(tarea: Tarea?) {
+                if (tarea!!.estado == 2){
+                    tarea.estado = 0
+                } else {
+                    tarea.estado++
+                }
+            }
         }
     }
 
