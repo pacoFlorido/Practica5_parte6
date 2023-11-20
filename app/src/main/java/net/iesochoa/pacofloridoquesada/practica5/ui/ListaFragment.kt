@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import net.iesochoa.pacofloridoquesada.practica5.R
+import net.iesochoa.pacofloridoquesada.practica5.adapters.TareaAdapter
 import net.iesochoa.pacofloridoquesada.practica5.databinding.FragmentListaBinding
 import net.iesochoa.pacofloridoquesada.practica5.model.Tarea
 import net.iesochoa.pacofloridoquesada.practica5.viewmodel.AppViewModel
@@ -23,6 +25,19 @@ class ListaFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: AppViewModel by activityViewModels()
+    lateinit var tareasAdapter: TareaAdapter
+
+    private fun iniciaRecycledView() {
+        //creamos el adaptador
+        tareasAdapter = TareaAdapter()
+
+        with(binding.rvTareas) {
+            //Creamos el layoutManager
+            layoutManager = LinearLayoutManager(activity)
+            //le asignamos el adaptador
+            adapter = tareasAdapter
+        }
+    }
 
     /**
      * Método que inicia ambos filtros
@@ -71,14 +86,14 @@ class ListaFragment : Fragment() {
 
          */
         viewModel.tareasLiveData.observe(viewLifecycleOwner, Observer<List<Tarea>>{lista ->
-            actualizaLista(lista)
+            tareasAdapter.setLista(lista)
         })
         // Indicamos la accion que realizará el boton FabAñadirTarea
         binding.fabAAdirTarea.setOnClickListener{
             val action = ListaFragmentDirections.actionEditar(null)
             findNavController().navigate(action)
         }
-
+        iniciaRecycledView()
         iniciaFiltros()
     }
 
