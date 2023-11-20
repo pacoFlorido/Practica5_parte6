@@ -50,7 +50,6 @@ class ListaFragment : Fragment() {
             listaString="$listaString ${it.id}-${it.tecnico}-${it.descripcion}-${if(it.pagado) "pagado" else
                 "no pagado"}\n"
         }
-        binding.tvLista.setText(listaString)
     }
 
     override fun onCreateView(
@@ -79,16 +78,7 @@ class ListaFragment : Fragment() {
             val action = ListaFragmentDirections.actionEditar(null)
             findNavController().navigate(action)
         }
-        // Indicamos la acción que realizará el botón PruebaEdición
-        binding.btPruebaEdicion.setOnClickListener{
-            //cogemos la lista actual de Tareas que tenemos en el ViewModel. No es lo más correcto
-            val lista = viewModel.tareasLiveData.value
-            //buscamos una tarea aleatoriamente
-            val tarea=lista?.get((0..lista.lastIndex).random())
-            //se la enviamos a TareaFragment para su edición
-            val action=ListaFragmentDirections.actionEditar(tarea)
-            findNavController().navigate(action)
-        }
+
         iniciaFiltros()
     }
 
