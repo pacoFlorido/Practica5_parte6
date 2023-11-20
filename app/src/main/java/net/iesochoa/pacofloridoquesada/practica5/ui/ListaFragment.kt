@@ -1,5 +1,7 @@
 package net.iesochoa.pacofloridoquesada.practica5.ui
 
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -27,6 +29,25 @@ class ListaFragment : Fragment() {
     private val viewModel: AppViewModel by activityViewModels()
     lateinit var tareasAdapter: TareaAdapter
 
+    private fun borrarTarea(tarea:Tarea){
+        AlertDialog.Builder(activity as Context)
+            .setTitle(android.R.string.dialog_alert_title)
+            //recuerda: todo el texto en string.xml
+            .setMessage(getString(R.string.desea_borrar_la_tarea, tarea.id))
+            //acción si pulsa si
+            .setPositiveButton(android.R.string.ok){v,_->
+                //borramos la tarea
+                viewModel.delTarea(tarea)
+                //cerramos el dialogo
+                v.dismiss()
+            }
+            //accion si pulsa no
+            .setNegativeButton(android.R.string.cancel){v,_->v.dismiss()}
+            .setCancelable(false)
+            .create()
+            .show()
+    }
+
     private fun iniciaCRUD(){
         binding.fabAAdirTarea.setOnClickListener{
             val action = ListaFragmentDirections.actionEditar(null)
@@ -39,7 +60,7 @@ class ListaFragment : Fragment() {
             }
 
             override fun onTareaBorrarClick(tarea: Tarea?) {
-                viewModel.delTarea(tarea!!)
+                borrarTarea(tarea!!)
             }
         }
     }

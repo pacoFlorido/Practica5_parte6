@@ -71,4 +71,5 @@
     <string name="mensaje_error_guardar">Debes rellenar todos los campos</string>
     <string name="sin_pagar">Sin Pagar</string>
     <string name="todas">Todas</string>
+    <string name="desea_borrar_la_tarea">Desea borrar la Tarea %d?</string>
 </resources>
