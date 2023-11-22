@@ -58,6 +58,7 @@ class ListaFragment : Fragment() {
     /**
      * Función que inicia las acciones que tendremos en esta activity
      */
+
     private fun iniciaCRUD(){
         binding.fabAAdirTarea.setOnClickListener{
             val action = ListaFragmentDirections.actionEditar(null)
