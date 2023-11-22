@@ -11,8 +11,6 @@ import net.iesochoa.pacofloridoquesada.practica5.repository.Repository
 class AppViewModel(application: Application): AndroidViewModel(application) {
     private val repositorio: Repository
     val tareasLiveData: LiveData<List<Tarea>>
-    //private val soloSinPagarLiveData = MutableLiveData<Boolean>(false)
-    //private val estadoLiveData = MutableLiveData<Int>(3)
     val SOLO_SIN_PAGAR = "SOLO_SIN_PAGAR"
     val ESTADO = "ESTADO"
     private val filtrosLiveData by lazy {
@@ -26,9 +24,6 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     init {
         Repository(getApplication<Application>().applicationContext)
         repositorio = Repository
-        //tareasLiveData = soloSinPagarLiveData.switchMap { soloSinPagar -> Repository.getTareasFiltroSinPagar(soloSinPagar) }
-        //tareasLiveData = estadoLiveData.switchMap { estado -> Repository.getTareasFiltroEstado(estado) }
-
         tareasLiveData=filtrosLiveData.switchMap{ mapFiltro ->
             val aplicarSinPagar = mapFiltro!![SOLO_SIN_PAGAR] as Boolean
             val estado = mapFiltro[ESTADO] as Int
@@ -47,8 +42,9 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
             }
         }
     }
-
+    // Método que añade una tarea
     fun addTarea(tarea: Tarea)= Repository.addTarea(tarea)
+    // Método que alimina una tarea
     fun delTarea(tarea: Tarea)= Repository.delTarea(tarea)
     // Método que comprueba que opción esta seleccionada para poder filtrar
     fun setSoloSinPagar (soloSinPagar: Boolean) {

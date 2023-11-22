@@ -14,10 +14,12 @@ class TareaAdapter():
     lateinit var listaTareas: List<Tarea>
     var onTareaClickListener: OnTareaClickListener?=null
 
+    // Función que mete las tareas en la listaTareas para que se muestren al usuario.
     fun setLista(lista: List<Tarea>){
         listaTareas = lista
         notifyDataSetChanged()
     }
+    // Creamos la clase anidada TareaViewHolder
     inner class TareaViewHolder(val binding: ItemTareaBinding)
         : RecyclerView.ViewHolder(binding.root){
         init {
@@ -52,19 +54,19 @@ class TareaAdapter():
             .inflate(LayoutInflater.from(parent.context), parent, false)
         return TareaViewHolder(binding)
     }
-
+    // Obtiene la cantidad de elementos que tendrá que cargar
     override fun getItemCount(): Int = listaTareas?.size?:0
 
     override fun onBindViewHolder(tareaViewHolder: TareaViewHolder, pos: Int) {
-        //Nos pasan la posición del item a mostrar en el viewHolder
+        // Nos pasan la posición del item a mostrar en el viewHolder
         with(tareaViewHolder) {
-            //cogemos la tarea a mostrar y rellenamos los campos del ViewHolder
+            // Cogemos la tarea a mostrar y rellenamos los campos del ViewHolder
             with(listaTareas!!.get(pos)) {
                 binding.tvIdTarea.text = id.toString()
                 binding.tvDescripcionItem.text = descripcion
                 binding.tvTecnico.text = tecnico
                 binding.rbValoracionItem.rating = valoracionCliente
-                //mostramos el icono en función del estado
+                // Mostramos el icono en función del estado
                 binding.ivEstadoItem.setImageResource(
                     when (estado) {
                         0 -> R.drawable.ic_abierto
@@ -72,7 +74,7 @@ class TareaAdapter():
                         else -> R.drawable.ic_cerrado
                     }
                 )
-                //cambiamos el color de fondo si la prioridad es alta
+                // Cambiamos el color de fondo si la prioridad es alta
                 binding.cvItem.setBackgroundResource(
                     if (prioridad == 2)//prioridad alta
                         R.color.prioridad_alta
@@ -82,6 +84,7 @@ class TareaAdapter():
             }
         }
     }
+    // Creamos la interfaz para dividir los click en la tarea segun donde pulses
     interface OnTareaClickListener {
         fun onTareaClick(tarea: Tarea?)
         fun onTareaBorrarClick(tarea: Tarea?)

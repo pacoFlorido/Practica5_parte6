@@ -33,25 +33,31 @@ class ListaFragment : Fragment() {
     private val viewModel: AppViewModel by activityViewModels()
     lateinit var tareasAdapter: TareaAdapter
 
+    /**
+     * Función que borra una tarea mostrando un dialogo de confirmación antes
+     */
     private fun borrarTarea(tarea:Tarea){
+        // Dialogo que permite al usuario confirmar el borrado de la tarea o cancelar la acción
         AlertDialog.Builder(activity as Context)
             .setTitle(android.R.string.dialog_alert_title)
-            //recuerda: todo el texto en string.xml
             .setMessage(getString(R.string.desea_borrar_la_tarea, tarea.id))
-            //acción si pulsa si
+            // Acción si pulsa si
             .setPositiveButton(android.R.string.ok){v,_->
-                //borramos la tarea
+                // Borramos la tarea
                 viewModel.delTarea(tarea)
-                //cerramos el dialogo
+                // Cerramos el dialogo
                 v.dismiss()
             }
-            //accion si pulsa no
+            // Accion si pulsa no
             .setNegativeButton(android.R.string.cancel){v,_->v.dismiss()}
             .setCancelable(false)
             .create()
             .show()
     }
 
+    /**
+     * Función que inicia las acciones que tendremos en esta activity
+     */
     private fun iniciaCRUD(){
         binding.fabAAdirTarea.setOnClickListener{
             val action = ListaFragmentDirections.actionEditar(null)
@@ -59,15 +65,20 @@ class ListaFragment : Fragment() {
         }
         tareasAdapter.onTareaClickListener = object: TareaAdapter.OnTareaClickListener {
             override fun onTareaClick(tarea: Tarea?) {
+                // Cuando se pulsa en un sitio de la tarea que no sea la papelera ni el estado,
+                // se abrira la tarea
                 val action = ListaFragmentDirections.actionEditar(tarea)
                 findNavController().navigate(action)
             }
 
             override fun onTareaBorrarClick(tarea: Tarea?) {
+                // Cuando pulsamos sobre la papelera, llamamos al método que borrará la tarea
                 borrarTarea(tarea!!)
             }
 
             override fun onTareaEstadoClick(tarea: Tarea?) {
+                // Cuando clicamos sobre la imagen del estado de la tarea,
+                // el estado de la tarea cambiará  al siguiente .
                 if (tarea!!.estado == 2){
                     tarea.estado = 0
                 } else {
@@ -77,13 +88,16 @@ class ListaFragment : Fragment() {
         }
     }
 
+    /**
+     * Función que inicia la acción de deslizar para eliminar
+     */
     private fun iniciaSwiped(){
-        //creamos el evento del Swiper para detectar cuando el usuario desliza un item
+        // Creamos el evento del Swiper para detectar cuando el usuario desliza un item
         val itemTouchHelperCallback =
             object :
                 ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or
                         ItemTouchHelper.RIGHT) {
-                //si tenemos que actuar cuando se mueve un item
+                // Si tenemos que actuar cuando se mueve un item
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
@@ -93,38 +107,55 @@ class ListaFragment : Fragment() {
                 }
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder,
                                       direction: Int) {
-                    //obtenemos la posición de la tarea a partir del viewholder
+                    // Obtenemos la posición de la tarea a partir del viewholder
                     val tareaDelete=tareasAdapter.listaTareas?.get(viewHolder.adapterPosition)
-                    //borramos la tarea. Falta preguntar al usuario si desea borrarla
+                    // Borramos la tarea.
                     if (tareaDelete != null) {
-                         viewModel.delTarea(tareaDelete)
-
+                        val posicion = viewHolder.adapterPosition
+                        // Mostramos el diálogo para saber si el usuario quiere eliminar o no la tarea
+                        AlertDialog.Builder(activity as Context)
+                            .setTitle(android.R.string.dialog_alert_title)
+                            .setMessage(getString(R.string.desea_borrar_la_tarea, tareaDelete.id))
+                            // Acción si pulsa si
+                            .setPositiveButton(android.R.string.ok){v,_->
+                                // Borramos la tarea
+                                viewModel.delTarea(tareaDelete)
+                                // Cerramos el dialogo
+                                v.dismiss()
+                            }
+                            // Accion si pulsa no
+                            .setNegativeButton(android.R.string.cancel){v,_->v.dismiss()}
+                            .setCancelable(false)
+                            .create()
+                            .show()
+                        tareasAdapter.notifyItemChanged(posicion)
                     }
                 }
             }
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-        //asignamos el evento al RecyclerView
+        // Asignamos el evento al RecyclerView
         itemTouchHelper.attachToRecyclerView(binding.rvTareas)
     }
 
-
+    /**
+     * Funcion que inicia el RecycledView con las tareas creadas
+     */
     private fun iniciaRecycledView() {
-        //creamos el adaptador
+        // Creamos el adaptador
         tareasAdapter = TareaAdapter()
 
         with(binding.rvTareas) {
-            //Creamos el layoutManager
-            //layoutManager = LinearLayoutManager(activity)
-            //le asignamos el adaptador
-
+            // Obtenemos la orientación actual del movil
             val orientation=resources.configuration.orientation
             layoutManager =if(orientation== Configuration.ORIENTATION_PORTRAIT)
-            //Vertical: lista con una colummna
+            // Si está en Vertical: Lista de tareas con una colummna
                 LinearLayoutManager(activity)
-            else//Horizontal: lista con dos columnas
+            else
+                // Si está en Horizontal: Lista de tareas con dos columnas
                 GridLayoutManager(activity,2)
             adapter = tareasAdapter
         }
+        // Iniciamos el Swiped en ambos casos
         iniciaSwiped()
     }
 
@@ -146,8 +177,8 @@ class ListaFragment : Fragment() {
     }
 
     /**
-     * Método que actualiza la lista por si se ha añadido alguna tarea nueva
-     */
+     * Método que actualiza la lista por si se ha añadido alguna tarea nueva sin RecicledView
+     *
     private fun actualizaLista(lista: List<Tarea>?) {
         var listaString=""
         lista?.forEach(){
@@ -155,6 +186,7 @@ class ListaFragment : Fragment() {
                 "no pagado"}\n"
         }
     }
+    */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -169,15 +201,16 @@ class ListaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        // Iniciamos el RecicledView
         iniciaRecycledView()
+        // Iniciamos los Filtros
         iniciaFiltros()
+        // Iniciamos el CRUD
         iniciaCRUD()
+        // Cargamos las tareas en el RecicledView
         viewModel.tareasLiveData.observe(viewLifecycleOwner, Observer<List<Tarea>>{lista ->
             tareasAdapter.setLista(lista)
         })
-        // Indicamos la accion que realizará el boton FabAñadirTarea
-
     }
 
     override fun onDestroyView() {
