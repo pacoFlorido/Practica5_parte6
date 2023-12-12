@@ -8,8 +8,7 @@ import net.iesochoa.pacofloridoquesada.practica5.R
 import net.iesochoa.pacofloridoquesada.practica5.databinding.ItemTareaBinding
 import net.iesochoa.pacofloridoquesada.practica5.model.Tarea
 
-class TareaAdapter():
-    RecyclerView.Adapter<TareaAdapter.TareaViewHolder>()
+class TareaAdapter(): RecyclerView.Adapter<TareaAdapter.TareaViewHolder>()
 {
     lateinit var listaTareas: List<Tarea>
     var onTareaClickListener: OnTareaClickListener?=null
@@ -38,13 +37,6 @@ class TareaAdapter():
             binding.ivEstadoItem.setOnClickListener(){
                 val tarea = listaTareas.get(this.adapterPosition)
                 onTareaClickListener?.onTareaEstadoClick(tarea)
-                binding.ivEstadoItem.setImageResource(
-                    when (tarea.estado) {
-                        0 -> R.drawable.ic_abierto
-                        1 -> R.drawable.ic_en_curso
-                        else -> R.drawable.ic_cerrado
-                    }
-                )
             }
         }
     }

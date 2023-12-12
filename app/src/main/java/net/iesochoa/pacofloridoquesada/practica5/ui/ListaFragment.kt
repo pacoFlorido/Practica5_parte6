@@ -78,12 +78,12 @@ class ListaFragment : Fragment() {
             }
 
             override fun onTareaEstadoClick(tarea: Tarea?) {
-                // Cuando clicamos sobre la imagen del estado de la tarea,
-                // el estado de la tarea cambiará  al siguiente .
-                if (tarea!!.estado == 2){
-                    tarea.estado = 0
-                } else {
-                    tarea.estado++
+                //Cambio de imagen en tarea
+                if (tarea != null) {
+                    // cambiamos el estado
+                    val tareaActu = tarea.copy(estado = (tarea.estado + 1) % 3)
+                    //la sustituimos
+                    viewModel.addTarea(tareaActu)
                 }
             }
         }
@@ -106,8 +106,7 @@ class ListaFragment : Fragment() {
                 ): Boolean {
                     return false
                 }
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder,
-                                      direction: Int) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     // Obtenemos la posición de la tarea a partir del viewholder
                     val tareaDelete=tareasAdapter.listaTareas?.get(viewHolder.adapterPosition)
                     // Borramos la tarea.
@@ -125,11 +124,13 @@ class ListaFragment : Fragment() {
                                 v.dismiss()
                             }
                             // Accion si pulsa no
-                            .setNegativeButton(android.R.string.cancel){v,_->v.dismiss()}
+                            .setNegativeButton(android.R.string.cancel){v,_->
+                                tareasAdapter.notifyItemChanged(posicion)
+                                v.dismiss()
+                            }
                             .setCancelable(false)
                             .create()
                             .show()
-                        tareasAdapter.notifyItemChanged(posicion)
                     }
                 }
             }

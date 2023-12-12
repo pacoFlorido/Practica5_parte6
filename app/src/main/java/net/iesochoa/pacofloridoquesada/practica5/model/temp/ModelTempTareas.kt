@@ -67,7 +67,7 @@ object ModelTempTareas {
             "Zape Gómez"
         )
         lateinit var tarea: Tarea
-        (1..10).forEach({
+        (1..10).forEach {
             tarea = Tarea(
                 (0..4).random(),
                 (0..2).random(),
@@ -79,7 +79,7 @@ object ModelTempTareas {
                 "tarea $it realizada por el técnico \nLorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat ligula et vehicula mattis. Etiam tristique ornare lacinia. Vestibulum lacus magna, dignissim et tempor id, convallis sed augue"
             )
             tareas.add(tarea)
-        })
+        }
         //actualizamos el LiveData
         tareasLiveData.value = tareas
     }
@@ -88,10 +88,11 @@ object ModelTempTareas {
      * Método que filtra las tareas que están sin pagar
      */
     fun getTareasFiltroSinPagar(soloSinPagar: Boolean): LiveData<List<Tarea>>{
-        tareasLiveData.value = if (soloSinPagar)
-            tareas.filter { !it.pagado } as ArrayList<Tarea>
-        else
-            tareas
+        tareasLiveData.value =
+            if (soloSinPagar)
+                tareas.filter { !it.pagado } as ArrayList<Tarea>
+            else
+                tareas
         return tareasLiveData
     }
     /**
