@@ -57,6 +57,12 @@
         <item>Media</item>
         <item>Alta</item>
     </string-array>
+    <string-array name="filtro_prioridad">
+        <item>Baja</item>
+        <item>Media</item>
+        <item>Alta</item>
+        <item>Todas</item>
+    </string-array>
     <string name="mensaje_categoria">Has seleccionado %1$s como categoría</string>
     <string name="pagado">Pagado</string>
     <string name="estado_de_la_tarea">Estado de la tarea</string>

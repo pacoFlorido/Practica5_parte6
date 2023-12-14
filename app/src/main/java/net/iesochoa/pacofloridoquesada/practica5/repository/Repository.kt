@@ -27,4 +27,8 @@ object Repository {
     fun getTareasFiltroSinPagar (soloSinPagar: Boolean) = modelTareas.getTareasFiltroSinPagar(soloSinPagar)
     fun getTareasFiltroEstado (estado: Int) = modelTareas.getTareasFiltroEstado(estado)
     fun getTareasFiltrosSinPagarEstado (soloSinPagar: Boolean, estado: Int) = modelTareas.getTareasFiltroSinPagarEstado(soloSinPagar,estado)
+    fun getTareasFiltrosPrioridad(prioridad: Int) = modelTareas.getTareasFiltroPrioridad(prioridad)
+    fun getTareasFiltroPrioridadSinPagar(prioridad: Int, soloSinPagar: Boolean) = modelTareas.getTareasFiltroPrioridadSinPagar(prioridad, soloSinPagar)
+    fun getTareasFiltroPrioridadEstado(prioridad: Int, estado: Int) = modelTareas.getTareasFiltroPrioridadEstado(prioridad, estado)
+    fun getTareasFiltroPrioridadEstadoSinPagar(prioridad: Int, estado: Int, soloSinPagar: Boolean) = modelTareas.getTareasFiltroPrioridadEstadoSinPagar(prioridad, estado, soloSinPagar)
 }

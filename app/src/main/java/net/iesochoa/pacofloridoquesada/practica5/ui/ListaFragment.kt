@@ -3,11 +3,14 @@ package net.iesochoa.pacofloridoquesada.practica5.ui
 import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -36,6 +39,7 @@ class ListaFragment : Fragment() {
     /**
      * Función que borra una tarea mostrando un dialogo de confirmación antes
      */
+
     private fun borrarTarea(tarea:Tarea){
         // Dialogo que permite al usuario confirmar el borrado de la tarea o cancelar la acción
         AlertDialog.Builder(activity as Context)
@@ -165,7 +169,7 @@ class ListaFragment : Fragment() {
     }
 
     /**
-     * Método que inicia ambos filtros
+     * Método que inicia todos los filtros
      */
     private fun iniciaFiltros() {
         binding.rgFiltroEstados.setOnCheckedChangeListener() {_, checkedId->
@@ -176,8 +180,34 @@ class ListaFragment : Fragment() {
                else -> viewModel.setEstado(3)
            }
         }
+
         binding.swSinPagar.setOnCheckedChangeListener(){_, isChecked ->
             viewModel.setSoloSinPagar(isChecked)
+        }
+
+        /**
+         * Iniciamos el Spinner para filtrar
+         */
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.filtro_prioridad,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spFiltroPrioridad.adapter = adapter
+
+            binding.spFiltroPrioridad.onItemSelectedListener=object : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, v: View?, posicion: Int, id: Long) {
+                    when (posicion){
+                        0 -> viewModel.setPrioridad(posicion)
+                        1 -> viewModel.setPrioridad(posicion)
+                        2 -> viewModel.setPrioridad(posicion)
+                        3 -> viewModel.setPrioridad(posicion)
+                    }
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
         }
     }
 
@@ -205,7 +235,6 @@ class ListaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // Iniciamos el RecicledView
         iniciaRecycledView()
         // Iniciamos los Filtros
