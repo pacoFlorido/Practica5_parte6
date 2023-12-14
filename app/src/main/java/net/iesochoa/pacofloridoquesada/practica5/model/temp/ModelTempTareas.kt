@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import net.iesochoa.pacofloridoquesada.practica5.model.Tarea
 import kotlin.random.Random
 
@@ -21,7 +23,8 @@ object ModelTempTareas {
      */
     operator fun invoke(context: Context){
         this.application = context.applicationContext as Application
-        iniciaPruebaTareas()
+        // Lanzamos corrutina para cargar el LiveData
+        GlobalScope.launch { iniciaPruebaTareas() }
     }
     // Devuelve un LiveData de todas las tareas para que no se pueda modificar en capas superiores.
     fun getAllTareas(): LiveData<List<Tarea>> {
@@ -50,7 +53,6 @@ object ModelTempTareas {
      * Metodo para eliminar tareas
      */
     suspend fun delTarea(tarea: Tarea){
-        Thread.sleep(50000)
         tareas.remove(tarea)
         tareasLiveData.postValue(tareas)
     }
@@ -58,7 +60,7 @@ object ModelTempTareas {
     /**
      * Generando items random para comprbar funcionamiento
      */
-    fun iniciaPruebaTareas() {
+    suspend fun iniciaPruebaTareas() {
         val tecnicos = listOf(
             "Pepe Gotero",
             "Sacarino Pómez",
@@ -68,7 +70,7 @@ object ModelTempTareas {
             "Zape Gómez"
         )
         lateinit var tarea: Tarea
-        (1..10).forEach {
+        (1..10000).forEach {
             tarea = Tarea(
                 (0..4).random(),
                 (0..2).random(),
@@ -81,8 +83,8 @@ object ModelTempTareas {
             )
             tareas.add(tarea)
         }
-        //actualizamos el LiveData
-        tareasLiveData.value = tareas
+        // Actualizamos el LiveData con PostValue para las corrutinas
+        tareasLiveData.postValue(tareas)
     }
 
     /**
