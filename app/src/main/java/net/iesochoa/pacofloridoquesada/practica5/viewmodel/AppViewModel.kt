@@ -5,6 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.iesochoa.pacofloridoquesada.practica5.model.Tarea
 import net.iesochoa.pacofloridoquesada.practica5.repository.Repository
 
@@ -45,7 +48,9 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
     // Método que añade una tarea
     fun addTarea(tarea: Tarea)= Repository.addTarea(tarea)
     // Método que alimina una tarea
-    fun delTarea(tarea: Tarea)= Repository.delTarea(tarea)
+    fun delTarea(tarea: Tarea)= viewModelScope.launch(Dispatchers.IO) {
+        Repository.delTarea(tarea)
+    }
     // Método que comprueba que opción esta seleccionada para poder filtrar
     fun setSoloSinPagar (soloSinPagar: Boolean) {
         val mapa = filtrosLiveData.value

@@ -49,9 +49,10 @@ object ModelTempTareas {
     /**
      * Metodo para eliminar tareas
      */
-    fun delTarea(tarea: Tarea){
+    suspend fun delTarea(tarea: Tarea){
+        Thread.sleep(50000)
         tareas.remove(tarea)
-        tareasLiveData.value = tareas
+        tareasLiveData.postValue(tareas)
     }
 
     /**
