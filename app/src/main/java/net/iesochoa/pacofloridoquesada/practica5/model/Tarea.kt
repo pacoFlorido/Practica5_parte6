@@ -1,11 +1,15 @@
 package net.iesochoa.pacofloridoquesada.practica5.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
+@Entity(tableName = "tareas")
 @Parcelize
 data class Tarea(
     // Constructor con ID
+    @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
     var categoria: Int,
     var prioridad: Int,
@@ -27,16 +31,8 @@ data class Tarea(
         valoracionCliente: Float,
         tecnico: String,
         descripcion: String
-        ): this(
-        generateId(),
-        categoria,
-        prioridad,
-        pagado,
-        estado,
-        horasTrabajo,
-        valoracionCliente,
-        tecnico,
-        descripcion){}
+        ): this(null,categoria,prioridad,pagado,
+        estado,horasTrabajo,valoracionCliente,tecnico,descripcion){}
     companion object {
         var idContador = 1L
         private fun generateId(): Long {
