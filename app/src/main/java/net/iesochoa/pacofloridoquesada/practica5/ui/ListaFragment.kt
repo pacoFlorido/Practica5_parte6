@@ -45,6 +45,7 @@ class ListaFragment : Fragment() {
             .setPositiveButton(android.R.string.ok){v,_->
                 // Borramos la tarea
                 viewModel.delTarea(tarea)
+                binding.rgFiltroEstados.check(R.id.rbFiltroTodos)
                 // Cerramos el dialogo
                 v.dismiss()
             }
@@ -84,6 +85,7 @@ class ListaFragment : Fragment() {
                     val tareaActu = tarea.copy(estado = (tarea.estado + 1) % 3)
                     //la sustituimos
                     viewModel.addTarea(tareaActu)
+                    binding.rgFiltroEstados.check(R.id.rbFiltroTodos)
                 }
             }
         }
@@ -120,6 +122,7 @@ class ListaFragment : Fragment() {
                             .setPositiveButton(android.R.string.ok){v,_->
                                 // Borramos la tarea
                                 viewModel.delTarea(tareaDelete)
+                                binding.rgFiltroEstados.check(R.id.rbFiltroTodos)
                                 // Cerramos el dialogo
                                 v.dismiss()
                             }
