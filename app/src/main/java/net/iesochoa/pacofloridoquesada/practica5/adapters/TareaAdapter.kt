@@ -10,7 +10,7 @@ import net.iesochoa.pacofloridoquesada.practica5.model.Tarea
 
 class TareaAdapter(): RecyclerView.Adapter<TareaAdapter.TareaViewHolder>()
 {
-    lateinit var listaTareas: List<Tarea>
+    var listaTareas: List<Tarea>? = null
     var onTareaClickListener: OnTareaClickListener?=null
 
     // Función que mete las tareas en la listaTareas para que se muestren al usuario.
@@ -25,17 +25,17 @@ class TareaAdapter(): RecyclerView.Adapter<TareaAdapter.TareaViewHolder>()
             //inicio del click de icono borrar
             binding.ivBorrarTarea.setOnClickListener(){
                 //recuperamos la tarea de la lista
-                val tarea=listaTareas.get(this.adapterPosition)
+                val tarea=listaTareas?.get(this.adapterPosition)
                 //llamamos al evento borrar que estará definido en el fragment
                 onTareaClickListener?.onTareaBorrarClick(tarea)
             }
             //inicio del click sobre el Layout(constraintlayout)
             binding.root.setOnClickListener(){
-                val tarea=listaTareas.get(this.adapterPosition)
+                val tarea=listaTareas?.get(this.adapterPosition)
                 onTareaClickListener?.onTareaClick(tarea)
             }
             binding.ivEstadoItem.setOnClickListener(){
-                val tarea = listaTareas.get(this.adapterPosition)
+                val tarea = listaTareas?.get(this.adapterPosition)
                 onTareaClickListener?.onTareaEstadoClick(tarea)
             }
         }
