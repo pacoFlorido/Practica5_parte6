@@ -33,7 +33,7 @@ object ModelTempTareas {
      * Esta función añadirá una tarea si no existe, y si ya existe la sustituirá.
      * Posteriormente actualizará el LiveData para poder visualizar los cambios.
      */
-    fun addTarea(tarea: Tarea) {
+    suspend fun addTarea(tarea: Tarea) {
         // Devuelve -1 si no se encuentra la tarea.
         val pos = tareas.indexOf(tarea)
         if (pos < 0){
@@ -43,7 +43,7 @@ object ModelTempTareas {
             // Si existe la sustituye
             tareas.set(pos, tarea)
         }
-        tareasLiveData.value = tareas
+        tareasLiveData.postValue(tareas)
     }
 
     /**

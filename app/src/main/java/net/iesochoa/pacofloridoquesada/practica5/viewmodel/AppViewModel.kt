@@ -46,9 +46,11 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
         }
     }
     // Método que añade una tarea
-    fun addTarea(tarea: Tarea)= Repository.addTarea(tarea)
+    fun addTarea(tarea: Tarea)= viewModelScope.launch(){
+        Repository.addTarea(tarea)
+    }
     // Método que alimina una tarea
-    fun delTarea(tarea: Tarea)= viewModelScope.launch(Dispatchers.IO) {
+    fun delTarea(tarea: Tarea)= viewModelScope.launch(Dispatchers.IO){
         Repository.delTarea(tarea)
     }
     // Método que comprueba que opción esta seleccionada para poder filtrar
