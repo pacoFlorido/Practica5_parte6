@@ -40,6 +40,7 @@ public abstract class TareasDataBase : RoomDatabase() {
     private class InicioDbCallback() : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
+            // Lanzamos la carga de la base de datos en una corrutina
             INSTANCE?.let { database ->
                 GlobalScope.launch {
                     cargarDatabase(database.tareasDao())
