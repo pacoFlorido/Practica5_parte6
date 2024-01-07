@@ -14,6 +14,12 @@ import net.iesochoa.pacofloridoquesada.practica5.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        val PREF_NOMBRE = "nombre"
+        val PREF_COLOR_PRIORIDAD = "color_prioridad"
+        val PREF_AVISO_NUEVAS = "aviso_nuevas"
+    }
+
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -40,6 +46,11 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this,"Prueba de menú",Toast.LENGTH_SHORT).show()
         return true
     }
+    private fun actionSettings(): Boolean {
+        findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.settingsFragment)
+        return true
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
@@ -47,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_prueba -> actionPrueba()
-            R.id.action_settings -> true
+            R.id.action_settings -> actionSettings()
             else -> super.onOptionsItemSelected(item)
         }
     }

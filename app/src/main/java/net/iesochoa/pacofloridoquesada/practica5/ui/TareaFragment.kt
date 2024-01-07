@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import net.iesochoa.pacofloridoquesada.practica5.R
 import net.iesochoa.pacofloridoquesada.practica5.databinding.FragmentTareaBinding
@@ -36,12 +37,12 @@ class TareaFragment : Fragment() {
     /**
      * Iniciamos la tarea que ya existe
      */
-    private fun iniciaTarea(tarea: Tarea){
+    private fun iniciaTarea(tarea: Tarea) {
         binding.spCategorias.setSelection(tarea.categoria)
         binding.spPrioridad.setSelection(tarea.prioridad)
         binding.swPagado.isChecked = tarea.pagado
         binding.rgEstado.check(
-            when (tarea.estado){
+            when (tarea.estado) {
                 0 -> R.id.rbAbierta
                 1 -> R.id.rbEnCurso
                 else -> R.id.rbCerrada
@@ -54,62 +55,89 @@ class TareaFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Tarea ${tarea.id}"
     }
 
+    private fun iniciaTecnico() {
+        //recuperamos las preferencias
+        val sharedPreferences =
+
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+        //recuperamos el nombre del usuario
+        val tecnico = sharedPreferences.getString(MainActivity.PREF_NOMBRE, "")
+        //lo asignamos
+        binding.tietTecnico.setText(tecnico)
+    }
+
+
     /**
      * Muestra el mensaje de error
      */
     private fun muestraMensajeError() {
         Snackbar.make(binding.clytTarea, R.string.mensaje_error_guardar, Snackbar.LENGTH_LONG)
             // En este caso no vamos a implementar ninguna acción adicional
-            .setAction("Action",null).show()
+            .setAction("Action", null).show()
     }
 
     /**
      * Inicia el FabGuardar
      */
     private fun iniciarFabGuardar() {
-        binding.fabGuardar.setOnClickListener{
-            if (binding.tietTecnico.text.toString().isEmpty() || binding.etDescripcion.text.toString().isEmpty())
+        binding.fabGuardar.setOnClickListener {
+            if (binding.tietTecnico.text.toString()
+                    .isEmpty() || binding.etDescripcion.text.toString().isEmpty()
+            )
                 muestraMensajeError()
             else
                 guardaTarea()
         }
     }
+
     /**
      * Guardar una Tarea
      */
     private fun guardaTarea() {
         //recuperamos los datos
-        val categoria=binding.spCategorias.selectedItemPosition
-        val prioridad=binding.spPrioridad.selectedItemPosition
-        val pagado=binding.swPagado.isChecked
-        val estado=when (binding.rgEstado.checkedRadioButtonId) {
+        val categoria = binding.spCategorias.selectedItemPosition
+        val prioridad = binding.spPrioridad.selectedItemPosition
+        val pagado = binding.swPagado.isChecked
+        val estado = when (binding.rgEstado.checkedRadioButtonId) {
             R.id.rbAbierta -> 0
             R.id.rbEnCurso -> 1
             else -> 2
         }
-        val horas=binding.sbHorasTrabajadas.progress
-        val valoracion=binding.rtbValoracion.rating
-        val tecnico=binding.tietTecnico.text.toString()
-        val descripcion=binding.etDescripcion.text.toString()
+        val horas = binding.sbHorasTrabajadas.progress
+        val valoracion = binding.rtbValoracion.rating
+        val tecnico = binding.tietTecnico.text.toString()
+        val descripcion = binding.etDescripcion.text.toString()
         //creamos la tarea: si es nueva, generamos un id, en otro caso le asignamos su id
-        val tarea = if(esNuevo)
+        val tarea = if (esNuevo)
 
-            Tarea(categoria,prioridad,pagado,estado,horas,valoracion,tecnico,descripcion)
+            Tarea(categoria, prioridad, pagado, estado, horas, valoracion, tecnico, descripcion)
         else
 
-            Tarea(args.tarea!!.id,categoria,prioridad,pagado,estado,horas,valoracion,tecnico,descripcion)
+            Tarea(
+                args.tarea!!.id,
+                categoria,
+                prioridad,
+                pagado,
+                estado,
+                horas,
+                valoracion,
+                tecnico,
+                descripcion
+            )
         //guardamos la tarea desde el viewmodel
         viewModel.addTarea(tarea)
         //salimos de editarFragment
         findNavController().popBackStack()
     }
+
     /**
      * Inicia el ScrollBar de Horas Trabajadas
      */
-    private fun iniciarSbHorasTrabajadas(){
-        binding.sbHorasTrabajadas.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+    private fun iniciarSbHorasTrabajadas() {
+        binding.sbHorasTrabajadas.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progreso: Int, p2: Boolean) {
-                binding.tvHorasTrabajadas.text = getString(R.string.horas_tabajadas,progreso)
+                binding.tvHorasTrabajadas.text = getString(R.string.horas_tabajadas, progreso)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -122,9 +150,9 @@ class TareaFragment : Fragment() {
                 ninguna hora, o que esta en curso si lleva alguna hora trabajada.
                 Es extra, si quieres lo puedes comentar.
                  */
-                if (binding.sbHorasTrabajadas.max == seekBar?.progress){
+                if (binding.sbHorasTrabajadas.max == seekBar?.progress) {
                     binding.rgEstado.check(R.id.rbCerrada)
-                } else if (0 == seekBar?.progress){
+                } else if (0 == seekBar?.progress) {
                     binding.rgEstado.check(R.id.rbAbierta)
                 } else {
                     binding.rgEstado.check(R.id.rbEnCurso)
@@ -133,16 +161,17 @@ class TareaFragment : Fragment() {
         })
         // Inicializamos el valor del SeekBar, horas trabajadas
         binding.sbHorasTrabajadas.progress = 0
-        binding.tvHorasTrabajadas.text = getString(R.string.horas_tabajadas,0)
+        binding.tvHorasTrabajadas.text = getString(R.string.horas_tabajadas, 0)
     }
+
     /**
      * Inicia el Switch de Pagado
      */
-    private fun iniciarSwPagado(){
-        binding.swPagado.setOnCheckedChangeListener{_, isChecked ->
+    private fun iniciarSwPagado() {
+        binding.swPagado.setOnCheckedChangeListener { _, isChecked ->
             // Elegimos la imagen dependiendo de como este el switch
             val imagen = if (isChecked) R.drawable.ic_pagado
-                         else R.drawable.ic_no_pagado
+            else R.drawable.ic_no_pagado
             // Asignamos la imagen dependiendo de como este el switch
             binding.ivPagado.setImageResource(imagen)
         }
@@ -154,12 +183,12 @@ class TareaFragment : Fragment() {
     /**
      * Iniciar RadioGroup del Estado
      */
-    private fun iniciarRgEstado(){
+    private fun iniciarRgEstado() {
         // Creamos el evento CheckerChange para cambiar las imagenes al seleccionar
         // un RadioButton u otro
-        binding.rgEstado.setOnCheckedChangeListener{_, checkedId ->
+        binding.rgEstado.setOnCheckedChangeListener { _, checkedId ->
             // Hacemos un when para coger la imagen adecuada en cada caso
-            val imagen = when (checkedId){
+            val imagen = when (checkedId) {
                 R.id.rbAbierta -> R.drawable.ic_abierto
                 R.id.rbEnCurso -> R.drawable.ic_en_curso
                 else -> R.drawable.ic_cerrado
@@ -174,7 +203,7 @@ class TareaFragment : Fragment() {
     /**
      * Inicia el Spinner de Prioridad
      */
-    private fun iniciarSpPrioridad(){
+    private fun iniciarSpPrioridad() {
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.prioridad,
@@ -184,29 +213,35 @@ class TareaFragment : Fragment() {
             binding.spPrioridad.adapter = adapter
 
             // Cuando se seleccione prioridad Alta cambiamos el color del fondo
-            binding.spPrioridad.onItemSelectedListener=object : AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(p0: AdapterView<*>?,v: View?,posicion: Int, id: Long) {
-                    if (posicion == 2){
-                        // Si el item seleccionado es "alta", que se encuentra en la tercera posicion (2 del array), se cambiará el fondo al color que hayamos escogido
-                        binding.clytTarea.setBackgroundColor(requireContext().getColor(R.color.prioridad_alta))
-                    } else {
-                        // Si la prioridad no es "alta" quitamos el color de fondo
+            binding.spPrioridad.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        p0: AdapterView<*>?,
+                        v: View?,
+                        posicion: Int,
+                        id: Long
+                    ) {
+                        if (posicion == 2) {
+                            // Si el item seleccionado es "alta", que se encuentra en la tercera posicion (2 del array), se cambiará el fondo al color que hayamos escogido
+                            binding.clytTarea.setBackgroundColor(requireContext().getColor(R.color.prioridad_alta))
+                        } else {
+                            // Si la prioridad no es "alta" quitamos el color de fondo
+                            binding.clytTarea.setBackgroundColor(Color.TRANSPARENT)
+                        }
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                        // Si no hay ningún elemento seleccionado nos pondremos el fondo transparente.
                         binding.clytTarea.setBackgroundColor(Color.TRANSPARENT)
                     }
                 }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    // Si no hay ningún elemento seleccionado nos pondremos el fondo transparente.
-                    binding.clytTarea.setBackgroundColor(Color.TRANSPARENT)
-                }
-            }
         }
     }
 
     /**
      * Inicia el Spinner de Categorias
      */
-    private fun iniciarSpCategorias(){
+    private fun iniciarSpCategorias() {
         //Creamos el Adapter
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -224,30 +259,41 @@ class TareaFragment : Fragment() {
             /* Creamos el evento para que cuando un item de spCategorias se seleccione nos muestre el
              * mensaje  */
 
-            binding.spCategorias.onItemSelectedListener=object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(p0: AdapterView<*>?, v: View?, posicion: Int, id: Long) {
-                    // Cogemos el string del item seleccionado
-                    val categoriaSeleccionada = binding.spCategorias.getItemAtPosition(posicion)
-                    // Lo ponemos en el mensaje que hemos creado en strings.xml
-                    val mensaje = getString(R.string.mensaje_categoria, categoriaSeleccionada)
+            binding.spCategorias.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        p0: AdapterView<*>?,
+                        v: View?,
+                        posicion: Int,
+                        id: Long
+                    ) {
+                        // Cogemos el string del item seleccionado
+                        val categoriaSeleccionada = binding.spCategorias.getItemAtPosition(posicion)
+                        // Lo ponemos en el mensaje que hemos creado en strings.xml
+                        val mensaje = getString(R.string.mensaje_categoria, categoriaSeleccionada)
 
-                    // Mostramos el mensaje mediante el SnackBar
-                    Snackbar.make(binding.clytTarea, mensaje, Snackbar.LENGTH_LONG)
-                        // En este caso no vamos a implementar ninguna acción adicional
-                        .setAction("Action",null).show()
-                }
+                        // Mostramos el mensaje mediante el SnackBar
+                        Snackbar.make(binding.clytTarea, mensaje, Snackbar.LENGTH_LONG)
+                            // En este caso no vamos a implementar ninguna acción adicional
+                            .setAction("Action", null).show()
+                    }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // En caso de que ninguno fuera seleccionado nos mostraría este mensaje.
-                    Snackbar.make(binding.clytTarea, "Ninguna categoría seleccionada", Snackbar.LENGTH_LONG)
-                        .setAction("Action",null).show()
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        // En caso de que ninguno fuera seleccionado nos mostraría este mensaje.
+                        Snackbar.make(
+                            binding.clytTarea,
+                            "Ninguna categoría seleccionada",
+                            Snackbar.LENGTH_LONG
+                        )
+                            .setAction("Action", null).show()
+                    }
                 }
-            }
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentTareaBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -268,9 +314,11 @@ class TareaFragment : Fragment() {
         iniciarSbHorasTrabajadas()
         iniciarFabGuardar()
 
-        if (esNuevo) // Si la tarea es nueva pondremos de titulo "Nueva tarea" y si no pondremos "Tarea" + el id de esa tarea
+        if (esNuevo) {
+            // Si la tarea es nueva pondremos de titulo "Nueva tarea" y si no pondremos "Tarea" + el id de esa tarea
             (requireActivity() as AppCompatActivity).supportActionBar?.title = "Nueva tarea"
-        else
+            iniciaTecnico()
+        } else
             iniciaTarea(args.tarea!!)
     }
 
