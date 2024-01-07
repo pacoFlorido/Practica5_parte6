@@ -222,8 +222,15 @@ class TareaFragment : Fragment() {
                         id: Long
                     ) {
                         if (posicion == 2) {
+                            val
+                                    colorPorDefecto=resources.getStringArray(R.array.color_values)[0]
+                            //recuperamos el color actual
+                            val color=
+                                PreferenceManager.getDefaultSharedPreferences(requireContext())
+                                    .getString(MainActivity.PREF_COLOR_PRIORIDAD,colorPorDefecto)
+
                             // Si el item seleccionado es "alta", que se encuentra en la tercera posicion (2 del array), se cambiará el fondo al color que hayamos escogido
-                            binding.clytTarea.setBackgroundColor(requireContext().getColor(R.color.prioridad_alta))
+                            binding.clytTarea.setBackgroundColor(Color.parseColor(color))
                         } else {
                             // Si la prioridad no es "alta" quitamos el color de fondo
                             binding.clytTarea.setBackgroundColor(Color.TRANSPARENT)

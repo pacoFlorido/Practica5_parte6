@@ -2,6 +2,7 @@ package net.iesochoa.pacofloridoquesada.practica5.ui
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +29,7 @@ import net.iesochoa.pacofloridoquesada.practica5.viewmodel.AppViewModel
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class ListaFragment : Fragment() {
+class ListaFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private var _binding: FragmentListaBinding? = null
 
@@ -58,6 +60,16 @@ class ListaFragment : Fragment() {
             .setCancelable(false)
             .create()
             .show()
+    }
+    fun obtenColorPreferencias():Int{
+        //cogemos el primer color si no hay ninguno seleccionado
+        val
+                colorPorDefecto=resources.getStringArray(R.array.color_values)[0]
+        //recuperamos el color actual
+        val color=
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .getString(MainActivity.PREF_COLOR_PRIORIDAD,colorPorDefecto)
+        return Color.parseColor(color)
     }
 
     /**
@@ -152,7 +164,7 @@ class ListaFragment : Fragment() {
     private fun iniciaRecycledView() {
         // Creamos el adaptador
         tareasAdapter = TareaAdapter()
-
+        tareasAdapter.colorPrioridadAlta = obtenColorPreferencias()
         with(binding.rvTareas) {
             // Obtenemos la orientación actual del movil
             val orientation=resources.configuration.orientation
@@ -251,4 +263,23 @@ class ListaFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    override fun onResume() {
+        super.onResume()
+
+        PreferenceManager.getDefaultSharedPreferences(requireContext()).registerOnSharedPreferenceChangeListener(this)
+    }
+    override fun onPause() {
+        super.onPause()
+
+        PreferenceManager.getDefaultSharedPreferences(requireContext()).unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences:
+                                           SharedPreferences?, key: String?) {
+        if (key == MainActivity.PREF_COLOR_PRIORIDAD) {
+            //si cambia el color, actualizamos la lista
+            tareasAdapter.actualizaRecyclerColor(obtenColorPreferencias())
+        }
+    }
+
 }

@@ -107,4 +107,5 @@
     <string name="nombre">Nombre</string>
     <string name="entorno">Entorno</string>
     <string name="avisar_nuevas_tareas">Avisar Nuevas Tareas</string>
+    <string name="color_prioridad_alta">Color Prioridad Alta</string>
 </resources>

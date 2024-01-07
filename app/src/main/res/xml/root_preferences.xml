@@ -24,14 +24,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="1"
-            android:title="List preference"
+            android:title="@string/color_prioridad_alta"
             app:entries="@array/color_entries"
             app:entryValues="@array/color_values"
+            app:key="color_prioridad"
             app:useSimpleSummaryProvider="true" />
         <SwitchPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="false"
-            android:title="@string/avisar_nuevas_tareas" />
+            android:title="@string/avisar_nuevas_tareas"
+            app:key="aviso_nueva" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -10,6 +10,7 @@ import net.iesochoa.pacofloridoquesada.practica5.model.Tarea
 
 class TareaAdapter(): RecyclerView.Adapter<TareaAdapter.TareaViewHolder>()
 {
+    var colorPrioridadAlta :Int=Color.TRANSPARENT
     var listaTareas: List<Tarea>? = null
     var onTareaClickListener: OnTareaClickListener?=null
 
@@ -67,14 +68,24 @@ class TareaAdapter(): RecyclerView.Adapter<TareaAdapter.TareaViewHolder>()
                     }
                 )
                 // Cambiamos el color de fondo si la prioridad es alta
-                binding.cvItem.setBackgroundResource(
+                /*binding.cvItem.setBackgroundResource(
                     if (prioridad == 2)//prioridad alta
                         R.color.prioridad_alta
+                    else
+                        Color.TRANSPARENT
+                )*/
+                binding.cvItem.setBackgroundColor(
+                    if (prioridad == 2)//prioridad alta
+                        colorPrioridadAlta
                     else
                         Color.TRANSPARENT
                 )
             }
         }
+    }
+    fun actualizaRecyclerColor(color:Int){
+        colorPrioridadAlta=color
+        notifyDataSetChanged()
     }
     // Creamos la interfaz para dividir los click en la tarea segun donde pulses
     interface OnTareaClickListener {
