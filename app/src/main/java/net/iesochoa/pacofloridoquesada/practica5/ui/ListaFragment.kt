@@ -158,6 +158,11 @@ class ListaFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
         itemTouchHelper.attachToRecyclerView(binding.rvTareas)
     }
 
+    private fun compruebaAviso(){
+        val aviso = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            .getBoolean(MainActivity.PREF_AVISO_NUEVAS,false)
+    }
+
     /**
      * Funcion que inicia el RecycledView con las tareas creadas
      */

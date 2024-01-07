@@ -8,7 +8,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.preference.PreferenceManager
 import net.iesochoa.pacofloridoquesada.practica5.R
 import net.iesochoa.pacofloridoquesada.practica5.databinding.ActivityMainBinding
 
@@ -17,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         val PREF_NOMBRE = "nombre"
         val PREF_COLOR_PRIORIDAD = "color_prioridad"
-        val PREF_AVISO_NUEVAS = "aviso_nuevas"
+        val PREF_AVISO_NUEVAS = "aviso_nueva"
     }
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -50,7 +52,12 @@ class MainActivity : AppCompatActivity() {
         findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.settingsFragment)
         return true
     }
-
+    fun obtenAvisoNuevas(aviso: Boolean){
+        if (!aviso)
+            binding.ivAviso.visibility = View.INVISIBLE
+        else
+            binding.ivAviso.visibility = View.VISIBLE
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
