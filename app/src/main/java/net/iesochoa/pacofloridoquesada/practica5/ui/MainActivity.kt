@@ -46,6 +46,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         return true
     }
 
+    /**
+     * Función que comprueba el botón de aviso.
+     */
     fun compruebaAviso(){
         val aviso = PreferenceManager.getDefaultSharedPreferences(this)
             .getBoolean(PREF_AVISO_NUEVAS,false)
