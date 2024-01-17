@@ -23,5 +23,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
             // Hay que devolver booleano para indicar si se acepta el cambio o no
             false
         }
+
+        // Buscamos la preferencia
+        val telefonoContacto: Preference? = findPreference("telefonoContacto")
+        // Definimos la accion para la preferencia
+        telefonoContacto?.setOnPreferenceClickListener {
+            startActivity(
+                Intent(
+                    Intent.ACTION_DIAL,
+                    Uri.parse("tel:966912260")
+                )
+            )
+            // Hay que devolver booleano para indicar si se acepta el cambio o no
+            false
+        }
     }
 }
