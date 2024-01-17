@@ -108,4 +108,5 @@
     <string name="entorno">Entorno</string>
     <string name="avisar_nuevas_tareas">Avisar Nuevas Tareas</string>
     <string name="color_prioridad_alta">Color Prioridad Alta</string>
+    <string name="es_necesario_el_permiso_de_lectura_de_fichero_para_mostrar_una_foto_desea_aceptar_los_permisos">Es necesario el permiso de \"Lectura de fichero\" para mostrar una foto.\nDesea aceptar los permisos?</string>
 </resources>
