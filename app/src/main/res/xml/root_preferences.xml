@@ -36,4 +36,14 @@
             android:title="@string/avisar_nuevas_tareas"
             app:key="aviso_nueva" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="Acerca de...">
+        <Preference
+            app:key="buildVersion"
+            app:summary="Practica5 1.0.0"
+            app:title="Versión de compilación" />
+        <Preference
+            app:key="telefonoContacto"
+            app:summary=" 966 91 22 60"
+            app:title="Teléfono de contacto" />
+    </PreferenceCategory>
 </PreferenceScreen>
