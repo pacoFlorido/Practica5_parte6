@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.preference.PreferenceManager
@@ -55,9 +56,12 @@ class TareaFragment : Fragment() {
     private val binding get() = _binding!!
     val args: TareaFragmentArgs by navArgs()
     private val viewModel: AppViewModel by activityViewModels()
+
     val esNuevo by lazy { args.tarea == null } // Si la tarea no esta en la lista es porque es nueva
+
     // Uri foto de la tarea
     var uriFoto = ""
+
     private val PERMISOS_REQUERIDOS=when {
         //no se la causa pero en el emulador no solicita este permiso en la versión 34
         // Build.VERSION.SDK_INT >= 34 ->
@@ -189,6 +193,8 @@ class TareaFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Tarea ${tarea.id}"
         if (!tarea.fotoUri.isNullOrEmpty())
             binding.ivFotoTarea.setImageURI(tarea.fotoUri.toUri())
+        else if (!uriFoto.isNullOrEmpty())
+            binding.ivFotoTarea.setImageURI(uriFoto.toUri())
     }
 
     private fun iniciaTecnico() {
@@ -515,6 +521,13 @@ class TareaFragment : Fragment() {
         return image
     }
 
+    fun mostrarImagenFragment() {
+        binding.ivFotoTarea.setOnClickListener{
+            val action = TareaFragmentDirections.actionImagen(uriFoto)
+            findNavController().navigate(action)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -538,6 +551,15 @@ class TareaFragment : Fragment() {
         iniciarSbHorasTrabajadas()
         iniciarFabGuardar()
         iniciaIvBuscarFoto()
+
+        binding.ivFotoTarea.setOnClickListener{
+            val action: NavDirections
+            if (!uriFoto.isNullOrEmpty())
+                action = TareaFragmentDirections.actionImagen(uriFoto)
+            else
+                action = TareaFragmentDirections.actionImagen(args.tarea!!.fotoUri)
+            findNavController().navigate(action)
+        }
 
         if (esNuevo) {
             // Si la tarea es nueva pondremos de titulo "Nueva tarea" y si no pondremos "Tarea" + el id de esa tarea

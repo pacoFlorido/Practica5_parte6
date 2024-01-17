@@ -23,9 +23,23 @@
             android:name="tarea"
             app:argType="net.iesochoa.pacofloridoquesada.practica5.model.Tarea"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_imagen"
+            app:destination="@id/imageFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="net.iesochoa.pacofloridoquesada.practica5.ui.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/imageFragment"
+        android:name="net.iesochoa.pacofloridoquesada.practica5.ui.ImageFragment"
+        android:label="fragment_image"
+        tools:layout="@layout/fragment_image" >
+        <argument
+            android:name="uriFotoTarea"
+            app:argType="string" />
+    </fragment>
 </navigation>
