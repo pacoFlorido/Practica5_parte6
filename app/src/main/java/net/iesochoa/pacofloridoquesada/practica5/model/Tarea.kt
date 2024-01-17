@@ -18,7 +18,8 @@ data class Tarea (
     var horasTrabajo: Int,
     var valoracionCliente: Float,
     var tecnico: String,
-    var descripcion: String
+    var descripcion: String,
+    val fotoUri: String
 ): Parcelable
 {
     // Segundo constructor que generá id automático
@@ -30,9 +31,10 @@ data class Tarea (
         horasTrabajo: Int,
         valoracionCliente: Float,
         tecnico: String,
-        descripcion: String
+        descripcion: String,
+        fotoUri: String
         ): this(null,categoria,prioridad,pagado,
-        estado,horasTrabajo,valoracionCliente,tecnico,descripcion){}
+        estado,horasTrabajo,valoracionCliente,tecnico,descripcion,fotoUri){}
     companion object {
         var idContador = 1L
         private fun generateId(): Long {
