@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "tareas")
 @Parcelize
-data class Tarea(
+data class Tarea (
     // Constructor con ID
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
