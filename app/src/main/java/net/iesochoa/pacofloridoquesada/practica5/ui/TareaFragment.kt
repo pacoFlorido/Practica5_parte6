@@ -521,9 +521,28 @@ class TareaFragment : Fragment() {
         return image
     }
 
+    /**
+     * Función que inicia ImageFragment
+     */
     fun mostrarImagenFragment() {
         binding.ivFotoTarea.setOnClickListener{
-            val action = TareaFragmentDirections.actionImagen(uriFoto)
+            val action: NavDirections
+            //Si uriFoto es distinto de null, asignamos esa Uri para la imagen que se mostrará
+            //dentro del fragment. Si no, utilizaremos la que tenemos almacenada en la
+            //base de datos.
+            if (!uriFoto.isNullOrEmpty())
+                action = TareaFragmentDirections.actionImagen(uriFoto)
+            else
+                action = TareaFragmentDirections.actionImagen(args.tarea!!.fotoUri)
+            findNavController().navigate(action)
+        }
+    }
+    /**
+     * Función que inicia FotoFragment
+     */
+    fun mostrarFotoFragment(){
+        binding.ivHacerFoto.setOnClickListener{
+            val action = TareaFragmentDirections.actionHacerFoto()
             findNavController().navigate(action)
         }
     }
@@ -538,12 +557,6 @@ class TareaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_TareaFragment_to_ListaFragment)
-        }
-
-         */
-
         iniciarSpCategorias()
         iniciarSpPrioridad()
         iniciarSwPagado()
@@ -551,15 +564,8 @@ class TareaFragment : Fragment() {
         iniciarSbHorasTrabajadas()
         iniciarFabGuardar()
         iniciaIvBuscarFoto()
-
-        binding.ivFotoTarea.setOnClickListener{
-            val action: NavDirections
-            if (!uriFoto.isNullOrEmpty())
-                action = TareaFragmentDirections.actionImagen(uriFoto)
-            else
-                action = TareaFragmentDirections.actionImagen(args.tarea!!.fotoUri)
-            findNavController().navigate(action)
-        }
+        mostrarImagenFragment()
+        mostrarFotoFragment()
 
         if (esNuevo) {
             // Si la tarea es nueva pondremos de titulo "Nueva tarea" y si no pondremos "Tarea" + el id de esa tarea

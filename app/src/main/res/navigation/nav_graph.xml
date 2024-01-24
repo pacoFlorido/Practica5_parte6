@@ -36,6 +36,10 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_hacer_foto"
+            app:destination="@id/fotoFragment"
+            app:launchSingleTop="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -49,5 +53,14 @@
         <argument
             android:name="uriFotoTarea"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fotoFragment"
+        android:name="net.iesochoa.pacofloridoquesada.practica5.ui.FotoFragment"
+        android:label="fragment_foto"
+        tools:layout="@layout/fragment_foto" >
+        <action
+            android:id="@+id/action_volver"
+            app:destination="@id/TareaFragment" />
     </fragment>
 </navigation>
