@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_lista">
         <action
             android:id="@+id/action_editar"
-            app:destination="@id/TareaFragment" />
+            app:destination="@id/TareaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/TareaFragment"
@@ -26,7 +30,11 @@
         <action
             android:id="@+id/action_imagen"
             app:destination="@id/imageFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
