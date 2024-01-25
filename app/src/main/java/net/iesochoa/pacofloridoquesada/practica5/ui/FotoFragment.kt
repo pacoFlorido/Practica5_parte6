@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -22,6 +23,8 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import net.iesochoa.pacofloridoquesada.practica5.R
 import net.iesochoa.pacofloridoquesada.practica5.databinding.FragmentFotoBinding
 import java.util.Locale
@@ -32,6 +35,7 @@ class FotoFragment : Fragment() {
     private val binding get() = _binding!!
     private var imageCapture: ImageCapture? = null
     private var uriFoto: Uri?=null
+    val args: FotoFragmentArgs by navArgs()
 
     companion object {
         private const val TAG = "Practica5_CameraX"
@@ -208,8 +212,17 @@ class FotoFragment : Fragment() {
             solicitudPermisosLauncher.launch(PERMISOS_REQUERIDOS)
         }
 
+        (requireActivity() as AppCompatActivity).supportActionBar?.title =
+            getString(R.string.hacer_foto)
+
         binding.btCapturaFoto.setOnClickListener{
             takePhoto()
+        }
+        binding.ivMuestra.setOnClickListener(){
+            var tarea=args.tarea?.copy(fotoUri =uriFoto.toString())
+            val action =
+                FotoFragmentDirections.actionVolver(tarea)
+            findNavController().navigate(action)
         }
     }
 }

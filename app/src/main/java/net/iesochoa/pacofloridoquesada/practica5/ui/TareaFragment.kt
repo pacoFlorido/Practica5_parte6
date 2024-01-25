@@ -190,7 +190,10 @@ class TareaFragment : Fragment() {
         binding.rtbValoracion.rating = tarea.valoracionCliente
         binding.tietTecnico.setText(tarea.tecnico)
         binding.etDescripcion.setText(tarea.descripcion)
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Tarea ${tarea.id}"
+        if (tarea.id != null)
+                (requireActivity() as AppCompatActivity).supportActionBar?.title = "Tarea ${tarea.id}"
+        else
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = "Nueva Tarea"
         if (!tarea.fotoUri.isNullOrEmpty())
             binding.ivFotoTarea.setImageURI(tarea.fotoUri.toUri())
         else if (!uriFoto.isNullOrEmpty())
@@ -235,6 +238,12 @@ class TareaFragment : Fragment() {
      * Guardar una Tarea
      */
     private fun guardaTarea() {
+        //guardamos la tarea desde el viewmodel
+        viewModel.addTarea(creaTarea())
+        //salimos de editarFragment
+        findNavController().popBackStack()
+    }
+    private fun creaTarea(): Tarea{
         //recuperamos los datos
         val categoria = binding.spCategorias.selectedItemPosition
         val prioridad = binding.spPrioridad.selectedItemPosition
@@ -253,10 +262,7 @@ class TareaFragment : Fragment() {
             Tarea(categoria, prioridad, pagado, estado, horas, valoracion, tecnico, descripcion, uriFoto)
         else
             Tarea(args.tarea!!.id, categoria, prioridad, pagado, estado, horas, valoracion, tecnico, descripcion, uriFoto)
-        //guardamos la tarea desde el viewmodel
-        viewModel.addTarea(tarea)
-        //salimos de editarFragment
-        findNavController().popBackStack()
+        return tarea
     }
 
     /**
@@ -542,7 +548,7 @@ class TareaFragment : Fragment() {
      */
     fun mostrarFotoFragment(){
         binding.ivHacerFoto.setOnClickListener{
-            val action = TareaFragmentDirections.actionHacerFoto()
+            val action = TareaFragmentDirections.actionHacerFoto(creaTarea())
             findNavController().navigate(action)
         }
     }
